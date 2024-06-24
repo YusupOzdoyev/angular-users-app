@@ -6,6 +6,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AddFolderComponent } from '../add-folder/add-folder.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CoreUiConfirmDialogComponent } from '@users/core/ui';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'users-folders-list',
@@ -19,14 +20,23 @@ export class FoldersListComponent implements OnInit{
   
   private readonly dialog = inject(MatDialog);
   private readonly facade = inject(MaterialsFacade);
-
-  status = '';
+  private readonly router = inject(Router);
+  
+  // status = '';
   public readonly folders$ = this.facade.allFolders$;
   public readonly status$ = this.facade.status$;
+  public readonly openedFolder$ = this.facade.openedFolder$;
 
   ngOnInit(): void {
     this.facade.initFolders()
-    this.status$.subscribe(value => this.status = value)
+    // this.status$.subscribe(value => this.status = value)
+  }
+
+  public onOpenFolder(id: number) {
+    // console.log(id)
+    this.router.navigate(['/materials/', id]);
+    
+    // this.openedFolder$.pipe().subscribe(val => console.log(val))
   }
 
   public onDeleteFolder(folder: Folder): void {

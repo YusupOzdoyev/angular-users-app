@@ -13,8 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MaterialsListComponent } from '@users/materials-list';
 
-
-
 @Component({
   selector: 'users-folders-card',
   standalone: true,
@@ -33,8 +31,13 @@ import { MaterialsListComponent } from '@users/materials-list';
 export class FoldersCardComponent {
   @Input({ required:true })folder!: Folder;
   @Output() deleteFolder = new EventEmitter();
+  @Output() openFolder = new EventEmitter();
   
   onDeleteFolder(event: Event) {
     this.deleteFolder.emit();
-  }
-}
+  };
+
+  onOpenFolder(event: Event) {
+    this.openFolder.emit();
+  };
+};

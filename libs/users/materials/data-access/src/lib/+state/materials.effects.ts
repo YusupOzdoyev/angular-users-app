@@ -3,12 +3,15 @@ import {
   map,
   switchMap,
   catchError,
+  withLatestFrom,
 } from 'rxjs';
 import { inject } from '@angular/core';
 import { ApiService } from '@users/core/http';
 import * as MaterialsActions from './materials.actions';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Folder, IAddFolder } from './types/materials.interface';
+import { Store } from '@ngrx/store';
+import { selectRouteParams } from '@users/core/data-access';
 
 export const foldersEffects = createEffect(
   () => {
@@ -74,6 +77,30 @@ export const addFolder = createEffect(
     );
   }, { functional: true }
 );
+
+export const openFolder = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const apiService = inject(ApiService);
+    const store = inject(Store);
+
+    return actions$.pipe(
+      ofType(MaterialsActions.openFolder),
+      withLatestFrom(store.select(selectRouteParams)),
+      switchMap(([, params]) => {
+        return apiService.get<Folder>(`/folder/${params['id']}`)
+        .pipe(
+          map((folder) => MaterialsActions.openFolderSuccess({ folder })),
+          catchError((error) => {
+            console.log('Error', error);
+            return of(MaterialsActions.openFolderFailure({ error }))
+          })
+        )
+      })
+    )
+  }, {functional: true}
+)
+
 
 // export const materialsEffects = createEffect(
 //   () => {

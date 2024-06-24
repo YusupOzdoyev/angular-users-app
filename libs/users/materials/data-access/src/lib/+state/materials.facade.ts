@@ -19,7 +19,7 @@ export class MaterialsFacade {
   public readonly status$ = this.store.select(MaterialsSelectors.selectStatus);
   public readonly allFolders$ = this.store.select(MaterialsSelectors.selectAllFolders);
   // public readonly selectedUsers$ = this.store.select(UsersSelectors.selectEntity);
-  // public readonly openedUser$ = this.store.select(UsersSelectors.selectOpenedUser);
+  public readonly openedFolder$ = this.store.select(MaterialsSelectors.selectOpenedFolder);
   // public readonly loggedUser$ = this.store.select(selectLoggedUser);
   // public readonly errors$: Observable<UsersErrors | null> = this.store.select(UsersSelectors.selectUsersError);
   /**

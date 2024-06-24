@@ -32,6 +32,21 @@ export const reducer = createReducer(
     error,
   })),
 
+  on(MaterialsActions.openFolder, (state) => ({
+    ...state,
+    status: 'loading' as const,
+  })),
+  on(MaterialsActions.openFolderSuccess, (state, { folder }) =>({
+    ...folder,
+    ...state,
+    status: 'loaded' as const,
+  })),
+  on(MaterialsActions.openFolderFailure, (state, { error }) => ({
+    ...state,
+    status: 'error' as const,
+    error,
+  })),
+
   on(MaterialsActions.addFolder, (state) => ({
     ...state,
     status: 'loading' as const,
@@ -50,13 +65,11 @@ export const reducer = createReducer(
     ...state,
     status: 'loading' as const,
   })),
-
   on(MaterialsActions.deleteFolderSuccess, (state, { id }) => ({
     ...state,
     status: 'loaded' as const,
     folders: state.folders.filter(v => v.id !== id),
   })),
-
   on(MaterialsActions.deleteFolderFailed, (state, { error }) => ({
     ...state,
     status: 'error' as const,
