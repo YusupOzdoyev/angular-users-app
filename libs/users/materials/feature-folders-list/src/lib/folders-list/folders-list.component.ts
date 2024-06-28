@@ -18,25 +18,20 @@ import { Router } from '@angular/router';
 })
 export class FoldersListComponent implements OnInit{
   
+  private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
   private readonly facade = inject(MaterialsFacade);
-  private readonly router = inject(Router);
   
-  // status = '';
-  public readonly folders$ = this.facade.allFolders$;
   public readonly status$ = this.facade.status$;
+  public readonly folders$ = this.facade.allFolders$;
   public readonly openedFolder$ = this.facade.openedFolder$;
 
   ngOnInit(): void {
     this.facade.initFolders()
-    // this.status$.subscribe(value => this.status = value)
   }
 
   public onOpenFolder(id: number) {
-    // console.log(id)
     this.router.navigate(['/materials/', id]);
-    
-    // this.openedFolder$.pipe().subscribe(val => console.log(val))
   }
 
   public onDeleteFolder(folder: Folder): void {
